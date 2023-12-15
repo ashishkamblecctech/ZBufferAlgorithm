@@ -1,8 +1,7 @@
 #include "stdafx.h"
-#include "Visualizer.h"
-#include "OpenGLWindow.h"
-#include "Reader.h"
-#include "Writer.h"
+#include "MyNameSpace.h"
+using namespace MyNameSpace;
+
 
 Visualizer::Visualizer(QWindow *parent)  : QMainWindow(nullptr)
 {
@@ -26,9 +25,6 @@ void Visualizer::setupUi() {
     setStatusBar(mStatusBar);
     mRenderer = new OpenGLWindow(QColor(0,0,0), this);
     setCentralWidget(mRenderer);
-    
-
-
     setWindowTitle(QCoreApplication::translate("Z-Buffer", "Z-Buffer", nullptr));*/
     resize(600, 400);
     centralWidget = new QWidget(this);
@@ -70,8 +66,6 @@ void Visualizer::setupUi() {
     connect(pushButton_2, &QPushButton::clicked, this, &Visualizer::writer);
 
     QMetaObject::connectSlotsByName(this);
-
-    
 }
 
 void Visualizer::reader() {

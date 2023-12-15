@@ -49,16 +49,19 @@ void Reader::reader(QVector <Triangle>& triangles, QVector <GLfloat>& myColorVec
             myPointVector.push_back(z);*/
             count++;
 
-            if (count == 3) {
+            if (count == 1) {
                 count = 0;
                 myColorVector.push_back(1.0);
                 myColorVector.push_back(0.0);
                 myColorVector.push_back(0.0);
-
+            }
+            else if (count == 2) {
+                myColorVector.push_back(0.0);
                 myColorVector.push_back(1.0);
                 myColorVector.push_back(0.0);
-                myColorVector.push_back(0.0);
-
+            }
+            else if (count == 3) {
+                count = 0;
                 myColorVector.push_back(0.0);
                 myColorVector.push_back(0.0);
                 myColorVector.push_back(1.0);

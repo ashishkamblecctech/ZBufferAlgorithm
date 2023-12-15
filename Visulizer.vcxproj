@@ -65,6 +65,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\Qt_Projects\Visualizer-main-GoFor3DUi\Visualizer-main\Geometry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>E:\Qt_Projects\Visualizer-main-GoFor3DUi\Visualizer-main\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Geometry.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -100,21 +109,24 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="geometryengine.cpp" />
+    <ClCompile Include="mainwidget.cpp" />
     <ClCompile Include="Writer.cpp" />
+    <ClInclude Include="geometryengine.h" />
+    <QtMoc Include="mainwidget.h" />
+    <ClInclude Include="MyNameSpace.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Triangulation.h" />
     <ClInclude Include="Writer.h" />
     <QtRcc Include="Visualizer.qrc" />
     <QtMoc Include="Visualizer.h" />
     <ClCompile Include="OpenGLWindow.cpp" />
-    <ClCompile Include="Point3D.cpp" />
     <ClCompile Include="Reader.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Triangulation.cpp" />
     <ClCompile Include="Visualizer.cpp" />
     <ClCompile Include="main.cpp" />
     <QtMoc Include="OpenGLWindow.h" />
-    <ClInclude Include="Point3D.h" />
     <ClInclude Include="Reader.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
