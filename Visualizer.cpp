@@ -1,6 +1,10 @@
 #include "stdafx.h"
-#include "MyNameSpace.h"
-using namespace MyNameSpace;
+#include "Triangle.h"
+#include "Triangulation.h"
+#include "Visualizer.h"
+#include "OpenGLWindow.h"
+#include "Reader.h"
+#include "Writer.h"
 
 
 Visualizer::Visualizer(QWindow *parent)  : QMainWindow(nullptr)

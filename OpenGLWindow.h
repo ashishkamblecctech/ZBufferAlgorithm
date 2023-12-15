@@ -61,4 +61,6 @@ private:
 
     QVector <GLfloat> myColorVector;
     QVector <GLfloat> inputPoints;
+    QQuaternion rotation;
+    QVector3D rotationAxis;
 };

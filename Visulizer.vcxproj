@@ -114,7 +114,6 @@
     <ClCompile Include="Writer.cpp" />
     <ClInclude Include="geometryengine.h" />
     <QtMoc Include="mainwidget.h" />
-    <ClInclude Include="MyNameSpace.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Triangulation.h" />
     <ClInclude Include="Writer.h" />

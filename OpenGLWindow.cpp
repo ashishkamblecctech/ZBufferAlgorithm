@@ -56,6 +56,7 @@ void OpenGLWindow::paintGL()
     QMatrix4x4 matrix;
     matrix.perspective(100.0f, 4.0f / 3.0f, 0.1f, 100.0f);
     matrix.translate(0, 0, -2);
+    matrix.rotate(rotation);
 
     mProgram->setUniformValue(m_matrixUniform, matrix);
 

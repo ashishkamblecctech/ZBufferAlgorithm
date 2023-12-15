@@ -50,7 +50,7 @@ void Reader::reader(QVector <Triangle>& triangles, QVector <GLfloat>& myColorVec
             count++;
 
             if (count == 1) {
-                count = 0;
+                
                 myColorVector.push_back(1.0);
                 myColorVector.push_back(0.0);
                 myColorVector.push_back(0.0);

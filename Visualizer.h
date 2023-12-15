@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include "Visualizer.h"
 #include "Triangle.h"
 #include "OpenGLWindow.h"
 
