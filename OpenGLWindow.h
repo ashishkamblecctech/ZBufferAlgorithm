@@ -2,6 +2,9 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLBuffer>
+#include "Point3D.h"
+#include "Triangle.h"
+#include "Triangulation.h"
 
 class QOpenGLTexture;
 class QOpenGLShader;
@@ -12,17 +15,21 @@ class QOpenGLPaintDevice;
 class OpenGLWindow :public QOpenGLWidget, protected QOpenGLFunctions
 {
     Q_OBJECT
+
+signals:
+    void dataUpdate();
 public:
-    OpenGLWindow(const QColor& background, QMainWindow* parent);
+    OpenGLWindow(const QColor& background, QWidget* parent);
     OpenGLWindow();
     ~OpenGLWindow();
-    void setVectorPoints(QVector <GLfloat>& pointVector, QVector <GLfloat>& colorVector);
 
+    void addTrianglePoints(QVector<GLfloat> p, QVector<GLfloat> c);
+    
 protected:
     void paintGL() override;
     void initializeGL() override;
     void setAnimating(bool animating);
-    
+    void addPoints(QVector<GLfloat>& add);
 
 private:
     void createGeometry();
@@ -52,6 +59,6 @@ private:
     GLint m_colAttr = 0;
     GLint m_matrixUniform = 0;
 
-    QVector <GLfloat> myPointVector;
     QVector <GLfloat> myColorVector;
+    QVector <GLfloat> inputPoints;
 };

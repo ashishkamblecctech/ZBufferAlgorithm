@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "Reader.h"
+#include "Point3D.h"
+#include "Triangle.h"
+#include "Triangulation.h"
 #include <sstream>
 #include <fstream>
 
 
-void Reader::reader(QVector <GLfloat> &pointVector, QVector <GLfloat>& colorVector) {
-
+void Reader::reader(QVector <Triangle>& triangles, QVector <GLfloat>& myColorVector) {
+    
     std::ifstream dataFile;
     dataFile.open("cubeModel.stl");
     if (!dataFile.is_open()) {
@@ -24,24 +27,41 @@ void Reader::reader(QVector <GLfloat> &pointVector, QVector <GLfloat>& colorVect
             std::string token;
             double x, y, z;
             iss >> token >> x >> y >> z;
-            pointVector.push_back(x);
-            pointVector.push_back(y);
-            pointVector.push_back(z);
+            Point3D point(x, y, z);
+            iss >> token >> x >> y >> z;
+
+            Point3D point1(x, y, z);
+
+            std::getline(dataFile, line);
+            std::istringstream iss1(line);
+            iss1 >> token >> x >> y >> z;
+            Point3D point2(x, y, z);
+
+            std::getline(dataFile, line);
+            std::istringstream iss2(line);
+            iss2 >> token >> x >> y >> z;
+            Point3D point3(x, y, z);
+
+            Triangle triangle(point1, point2, point3);
+            triangles.push_back(triangle);
+            /*myPointVector.push_back(x);
+            myPointVector.push_back(y);
+            myPointVector.push_back(z);*/
             count++;
 
             if (count == 3) {
                 count = 0;
-                colorVector.push_back(1.0);
-                colorVector.push_back(0.0);
-                colorVector.push_back(0.0);
+                myColorVector.push_back(1.0);
+                myColorVector.push_back(0.0);
+                myColorVector.push_back(0.0);
 
-                colorVector.push_back(0.0);
-                colorVector.push_back(1.0);
-                colorVector.push_back(0.0);
+                myColorVector.push_back(1.0);
+                myColorVector.push_back(0.0);
+                myColorVector.push_back(0.0);
 
-                colorVector.push_back(0.0);
-                colorVector.push_back(0.0);
-                colorVector.push_back(1.0);
+                myColorVector.push_back(0.0);
+                myColorVector.push_back(0.0);
+                myColorVector.push_back(1.0);
             }
         }
     }

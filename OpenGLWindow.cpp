@@ -11,12 +11,13 @@
 #include <sstream>
 #include <fstream>
 #include "Reader.h"
+#include "Writer.h"
 
 OpenGLWindow::OpenGLWindow() {
 
 }
 
-OpenGLWindow::OpenGLWindow(const QColor& background, QMainWindow* parent):
+OpenGLWindow::OpenGLWindow(const QColor& background, QWidget* parent):
     mBackground(background)
 {
     setParent(parent);
@@ -61,16 +62,13 @@ void OpenGLWindow::paintGL()
     static const GLfloat vertices[] = {0};
     static const GLfloat colors[] = {0};
 
-    Reader reader;
-    reader.reader(myPointVector, myColorVector);
-
-    glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, myPointVector.data());
+    glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, inputPoints.data());
     glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, myColorVector.data());
 
     glEnableVertexAttribArray(m_posAttr);
     glEnableVertexAttribArray(m_colAttr);
 
-    glDrawArrays(GL_POLYGON, 0, myPointVector.size()/3);
+    glDrawArrays(GL_POLYGON, 0, inputPoints.size()/3);
 
     glDisableVertexAttribArray(m_colAttr);
     glDisableVertexAttribArray(m_posAttr);
@@ -106,10 +104,16 @@ void OpenGLWindow::initializeGL()
     Q_ASSERT(m_colAttr != -1);
     m_matrixUniform = mProgram->uniformLocation("matrix");
     Q_ASSERT(m_matrixUniform != -1);
-
 }
 
-void OpenGLWindow::setVectorPoints(QVector <GLfloat>& pointVector,QVector <GLfloat>& colorVector) {
-    myPointVector = pointVector;
-    myColorVector = colorVector;
+void OpenGLWindow::addTrianglePoints(QVector<GLfloat> p, QVector<GLfloat> c)
+{
+    for (int i = 0; i < p.size(); i++) {
+        inputPoints.push_back(p[i]);
+    }
+    for (int i = 0; i < c.size(); i++) {
+        myColorVector.push_back(c[i]);
+    }
+    emit dataUpdate();
 }
+

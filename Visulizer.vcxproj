@@ -100,14 +100,23 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Writer.cpp" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="Triangulation.h" />
+    <ClInclude Include="Writer.h" />
     <QtRcc Include="Visualizer.qrc" />
     <QtMoc Include="Visualizer.h" />
     <ClCompile Include="OpenGLWindow.cpp" />
+    <ClCompile Include="Point3D.cpp" />
     <ClCompile Include="Reader.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="Triangulation.cpp" />
     <ClCompile Include="Visualizer.cpp" />
     <ClCompile Include="main.cpp" />
     <QtMoc Include="OpenGLWindow.h" />
+    <ClInclude Include="Point3D.h" />
     <ClInclude Include="Reader.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">Create</PrecompiledHeader>
@@ -116,6 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cubeModel.stl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Visualizer.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
