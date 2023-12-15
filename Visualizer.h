@@ -24,11 +24,6 @@ private:
     void setupUi();
 
 private:
-  /*  QMenuBar*   mMenuBar;
-    QToolBar*   mMainToolBar;
-    QWidget*    mCentralWidget;
-    QStatusBar* mStatusBar;
-    OpenGLWindow*   mRenderer;*/
     QWidget* centralWidget;
     OpenGLWindow* openGLWidget;
     QWidget* widget;
