@@ -6,19 +6,14 @@
 #include <QOpenGLShaderProgram>
 #include <QPainter>
 
-#include <vector>
+#include "SutherlandCohen.h"
+#include "SutherlandHodgman.h"
+#include "HermiteCurve.h"
+#include "BezierCurve.h"
+#include "Algorithms.h"
 
-#include <sstream>
-#include <fstream>
-#include "Reader.h"
-#include "Writer.h"
-
-OpenGLWindow::OpenGLWindow() {
-
-}
-
-OpenGLWindow::OpenGLWindow(const QColor& background, QWidget* parent):
-    mBackground(background)
+OpenGLWindow::OpenGLWindow(const QColor& background, QWidget* parent) :
+    mBackground(background),mClippingPolygon({})
 {
     setParent(parent);
     setMinimumSize(300, 250);
@@ -30,7 +25,6 @@ OpenGLWindow::~OpenGLWindow()
 
 void OpenGLWindow::reset()
 {
-    // And now release all OpenGL resources.
     makeCurrent();
     delete mProgram;
     mProgram = nullptr;
@@ -41,39 +35,157 @@ void OpenGLWindow::reset()
     mVbo.destroy();
     doneCurrent();
 
-    // We are done with the current QOpenGLContext, forget it. If there is a
-    // subsequent initialize(), that will then connect to the new context.
     QObject::disconnect(mContextWatchConnection);
 }
 
 void OpenGLWindow::paintGL()
 {
-  
+
     glClear(GL_COLOR_BUFFER_BIT);
 
     mProgram->bind();
 
     QMatrix4x4 matrix;
-    matrix.perspective(100.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+    matrix.perspective(140.0f, 4.0f / 3.0f, 0.1f, 100.0f);
     matrix.translate(0, 0, -2);
-    matrix.rotate(rotation);
 
     mProgram->setUniformValue(m_matrixUniform, matrix);
 
-    static const GLfloat vertices[] = {0};
-    static const GLfloat colors[] = {0};
+    std::vector<Line> clipingPolygonLines = mClippingPolygon.getShape();
+    for (int j = 0;j < clipingPolygonLines.size();j++) {
+        vertices.push_back(clipingPolygonLines.at(j).p1().x());
+        vertices.push_back(clipingPolygonLines.at(j).p1().y());
+        vertices.push_back(clipingPolygonLines.at(j).p2().x());
+        vertices.push_back(clipingPolygonLines.at(j).p2().y());
+        colors.push_back(1.0f);
+        colors.push_back(1.0f);
+        colors.push_back(0.0f);
 
-    glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, inputPoints.data());
-    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, myColorVector.data());
+        colors.push_back(1.0f);
+        colors.push_back(1.0f);
+        colors.push_back(0.0f);
+
+    }
+
+    for (int i = 0;i < mPolygons.size();i++) {
+        std::vector<Line> lines = mPolygons.at(i).getShape();
+        for (int j = 0;j < lines.size();j++) {
+            vertices.push_back(lines.at(j).p1().x());
+            vertices.push_back(lines.at(j).p1().y());
+            vertices.push_back(lines.at(j).p2().x());
+            vertices.push_back(lines.at(j).p2().y());
+            colors.push_back(1.0f);
+            colors.push_back(1.0f);
+            colors.push_back(1.0f);
+
+            colors.push_back(1.0f);
+            colors.push_back(1.0f);
+            colors.push_back(1.0f);
+        }
+    }
+
+    for (int j = 0;j < mLines.size();j++) {
+        vertices.push_back(mLines.at(j).p1().x());
+        vertices.push_back(mLines.at(j).p1().y());
+        vertices.push_back(mLines.at(j).p2().x());
+        vertices.push_back(mLines.at(j).p2().y());
+        colors.push_back(0.0f);
+colors.push_back(1.0f);
+colors.push_back(1.0f);
+
+colors.push_back(0.0f);
+colors.push_back(1.0f);
+colors.push_back(1.0f);
+    }
+    
+
+    
+    glVertexAttribPointer(m_posAttr, 2, GL_FLOAT, GL_FALSE, 0, vertices.data());
+    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, colors.data());
 
     glEnableVertexAttribArray(m_posAttr);
     glEnableVertexAttribArray(m_colAttr);
 
-    glDrawArrays(GL_POLYGON, 0, inputPoints.size()/3);
+    glDrawArrays(GL_LINES, 0, vertices.size() / 2);
 
     glDisableVertexAttribArray(m_colAttr);
     glDisableVertexAttribArray(m_posAttr);
 }
+
+void OpenGLWindow::clipPolygons()
+{
+    for (int i = 0;i < mPolygons.size();i++) {
+        SutherlandHodgman sh(mClippingPolygon, mPolygons.at(i));
+        mPolygons.at(i) = sh.getClippedPolygon();
+    }
+    emit shapesUpdated();
+}
+
+void OpenGLWindow::clipLines()
+{
+    for (int i = 0;i < mLines.size();i++) {
+        SutherlandCohen sc(mClippingPolygon, mLines[i]);
+
+        mLines[i] = sc.getClippedLine();
+    }
+    emit shapesUpdated();
+}
+
+void OpenGLWindow::addClippingPolygon(Shape* s)
+{
+    mClippingPolygon=*s;
+    emit shapesUpdated();
+}
+void OpenGLWindow::addPolygons(Shape* s)
+{
+    mPolygons.push_back(*s);
+    emit shapesUpdated();
+}
+void OpenGLWindow::addLines(std::vector<Line> lines)
+{
+    for(Line l:lines)
+    mLines.push_back(l);
+    emit shapesUpdated();
+}
+
+void OpenGLWindow::addHermiteCurve(std::vector<Point3D> points)
+{
+    HermiteCurve bs(points);
+    std::vector<Point3D> hermitePoints = bs.calculateHermite();
+
+    // Ensure that there are at least two points in the B-spline curve
+    if (hermitePoints.size() < 2) {
+        // Handle the case where there are not enough points
+        return;
+    }
+
+    // Create lines from the B-spline curve points
+    for (int i = 0; i < hermitePoints.size() - 1; i++) {
+        mLines.push_back(Line(hermitePoints[i], hermitePoints[i + 1]));
+    }
+
+    emit shapesUpdated();
+}
+
+void OpenGLWindow::addBezierCurve(std::vector<Point3D> points)
+{
+    BezierCurve bs(points);
+    std::vector<Point3D> bezierPoints = bs.calculateBezier();
+
+    // Ensure that there are at leabezierpoints in the B-spline curve
+    if (bezierPoints.size() < 2) {
+        // Handle the case where there are not enough points
+        return;
+    }
+
+    // Create lines from the B-spline curve points
+    for (int i = 0; i < bezierPoints.size() - 1; i++) {
+        mLines.push_back(Line(bezierPoints[i], bezierPoints[i + 1]));
+    }
+
+    emit shapesUpdated();
+}
+
 
 void OpenGLWindow::initializeGL()
 {
@@ -105,16 +217,16 @@ void OpenGLWindow::initializeGL()
     Q_ASSERT(m_colAttr != -1);
     m_matrixUniform = mProgram->uniformLocation("matrix");
     Q_ASSERT(m_matrixUniform != -1);
+
 }
 
-void OpenGLWindow::addTrianglePoints(QVector<GLfloat> p, QVector<GLfloat> c)
+void OpenGLWindow::addTrianglePoints(std::vector<float>& p, std::vector<float>& c)
 {
     for (int i = 0; i < p.size(); i++) {
-        inputPoints.push_back(p[i]);
+        vertices.push_back(p[i]);
     }
     for (int i = 0; i < c.size(); i++) {
-        myColorVector.push_back(c[i]);
+        colors.push_back(c[i]);
     }
-    emit dataUpdate();
+    emit shapesUpdated();
 }
-

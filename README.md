@@ -1,2 +1,0 @@
-# Visualizer
-Implemented CAGD Algorithms

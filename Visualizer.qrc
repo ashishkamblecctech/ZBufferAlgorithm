@@ -1,3 +1,4 @@
 <RCC>
-    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="Visualizer">
+    </qresource>
 </RCC>

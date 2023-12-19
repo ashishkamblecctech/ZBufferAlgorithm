@@ -2,9 +2,9 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLBuffer>
-#include "Point3D.h"
-#include "Triangle.h"
-#include "Triangulation.h"
+
+#include "Shape.h"
+#include "point.h"
 
 class QOpenGLTexture;
 class QOpenGLShader;
@@ -17,28 +17,31 @@ class OpenGLWindow :public QOpenGLWidget, protected QOpenGLFunctions
     Q_OBJECT
 
 signals:
-    void dataUpdate();
+    void shapesUpdated();
+
 public:
     OpenGLWindow(const QColor& background, QWidget* parent);
-    OpenGLWindow();
     ~OpenGLWindow();
 
-    void addTrianglePoints(QVector<GLfloat> p, QVector<GLfloat> c);
-    
+    void addLines(std::vector<Line> lines);
+    void addPolygons(Shape* s);
+    void addClippingPolygon(Shape* s);
+    void addHermiteCurve(std::vector<Point3D> points);
+    void addBezierCurve(std::vector<Point3D> points);
+    void clipPolygons();
+    void clipLines();
+    void addTrianglePoints(std::vector<float>& p, std::vector<float>& c);
+
+
 protected:
     void paintGL() override;
     void initializeGL() override;
-    void setAnimating(bool animating);
-    void addPoints(QVector<GLfloat>& add);
 
 private:
-    void createGeometry();
-    void quad(qreal x1, qreal y1, qreal x2, qreal y2, qreal x3, qreal y3, qreal x4, qreal y4);
-    void extrude(qreal x1, qreal y1, qreal x2, qreal y2);
     void reset();
 
 private:
-    bool mAnimating = true;
+    bool mAnimating = false;
     QOpenGLContext* mContext = nullptr;
     QOpenGLPaintDevice* mDevice = nullptr;
 
@@ -59,8 +62,12 @@ private:
     GLint m_colAttr = 0;
     GLint m_matrixUniform = 0;
 
-    QVector <GLfloat> myColorVector;
-    QVector <GLfloat> inputPoints;
+    Shape mClippingPolygon;
+    std::vector<Shape> mPolygons;
+    std::vector<Line> mLines;
+
+    std::vector<float> vertices;
+    std::vector<float> colors;
     QQuaternion rotation;
     QVector3D rotationAxis;
 };
