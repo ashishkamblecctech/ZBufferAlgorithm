@@ -11,6 +11,15 @@ Point3D::Point3D(double inX, double inY, double inZ)
     mZ = inZ;
 }
 
+Point3D::Point3D(double inX, double inY)
+    :mX(0),
+    mY(0),
+    mZ(0)
+{
+    mX = inX;
+    mY = inY;
+}
+
 Point3D::~Point3D()
 {
 }

@@ -1,0 +1,52 @@
+﻿  pch.cpp
+  dllmain.cpp
+  Reader.cpp
+  Writer.cpp
+E:\Visualizer\ZBuffer\Writer.cpp(17,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+E:\Visualizer\ZBuffer\Writer.cpp(18,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+E:\Visualizer\ZBuffer\Writer.cpp(19,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+E:\Visualizer\ZBuffer\Writer.cpp(21,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+E:\Visualizer\ZBuffer\Writer.cpp(22,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+E:\Visualizer\ZBuffer\Writer.cpp(23,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+E:\Visualizer\ZBuffer\Writer.cpp(25,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+E:\Visualizer\ZBuffer\Writer.cpp(26,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+E:\Visualizer\ZBuffer\Writer.cpp(27,44): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+  ZBuffer.cpp
+E:\Visualizer\ZBuffer\ZBuffer.cpp(14,1): fatal  error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Generating Code...
