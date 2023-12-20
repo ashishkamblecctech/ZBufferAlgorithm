@@ -8,20 +8,32 @@ The Bezier curve is a mathematical curve widely used in computer graphics and ot
 ## Class: BezierCurve
 
 ### Constructor
+```
 BezierCurve::BezierCurve(std::vector<Point3D> points);
+```
 ### Destructor
+```
 BezierCurve::~BezierCurve();
+```
 ### Method: calculateBezier
+```
 std::vector<Point3D> BezierCurve::calculateBezier();
+```
 ### Method: evaluateBezier
+```
 Point3D BezierCurve::evaluateBezier(double t);
+```
 ### Example Usage
+```
 #include "BezierCurve.h"
+```
 
-// Example usage of BezierCurve class
+### Example usage of BezierCurve class
+```
 std::vector<Point3D> controlPoints = { /* initialize control points here */ };
 BezierCurve bezierCurve(controlPoints);
 std::vector<Point3D> curvePoints = bezierCurve.calculateBezier();
+```
 ![BezierCurve](https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/31ae4131-d650-49c6-b089-c1646ce29682)
 
 
