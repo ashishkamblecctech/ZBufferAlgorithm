@@ -1,8 +1,0 @@
-﻿  pch.cpp
-  dllmain.cpp
-  HermiteCurve.cpp
-E:\Visualizer\HermiteCurve\HermiteCurve.h(14,23): warning C4251: 'HermiteCurve::mControlPoints': class 'std::vector<Point3D,std::allocator<Point3D>>' needs to have dll-interface to be used by clients of class 'HermiteCurve'
-E:\Visualizer\HermiteCurve\HermiteCurve.h(8,20): message : see declaration of 'std::vector<Point3D,std::allocator<Point3D>>'
-  Generating Code...
-C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(1134,5): error MSB6006: "link.exe" exited with code 1104.
-LINK : fatal error LNK1104: cannot open file 'Geometry.lib'
