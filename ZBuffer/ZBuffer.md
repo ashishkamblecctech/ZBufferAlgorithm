@@ -2,15 +2,6 @@
 
 This C++ library defines a `Z_Buffer` class that is designed for handling Z-Buffering in computer graphics. The class provides methods for reading a 3D model from an STL file, extracting triangles, and writing the triangle vertices to an output vector.
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Class: Z_Buffer](#class-z_buffer)
-  - [Constructor](#constructor)
-  - [Destructor](#destructor)
-  - [Method: reader](#method-reader)
-  - [Method: write](#method-write)
-- [Example Usage](#example-usage)
-
 ## Introduction
 The Z Buffer, or depth buffer, is commonly used in computer graphics to determine the visibility of objects. This library provides a C++ implementation for handling Z-Buffering.
 
@@ -36,4 +27,6 @@ std::vector<float> myColorVector, inputPoints;
 
 zBuffer.reader(triangles, myColorVector);
 zBuffer.write(triangles, inputPoints);
+
+![ZBuffer](https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/c3fd34fd-4934-4563-9bd7-4d5ceb359853)
 
