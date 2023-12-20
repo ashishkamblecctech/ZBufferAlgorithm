@@ -6,7 +6,6 @@ This C++ library defines a `HermiteCurve` class that represents a Hermite curve.
 The Hermite curve is a mathematical curve often used in computer graphics and animation. This library provides a C++ implementation for calculating points on a Hermite curve.
 
 ## Exported Variable and Function
-```cpp
 HERMITECURVE_API int nHermiteCurve = 0;
 
 HERMITECURVE_API int fnHermiteCurve(void)
