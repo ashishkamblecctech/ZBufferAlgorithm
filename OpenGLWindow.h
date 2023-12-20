@@ -9,7 +9,6 @@
 class QOpenGLTexture;
 class QOpenGLShader;
 class QOpenGLShaderProgram;
-
 class QOpenGLPaintDevice;
 
 class OpenGLWindow :public QOpenGLWidget, protected QOpenGLFunctions
@@ -20,17 +19,14 @@ signals:
     void shapesUpdated();
 
 public:
-    OpenGLWindow(const QColor& background, QWidget* parent);
+    OpenGLWindow(const QColor& (background), QWidget* parent);
     ~OpenGLWindow();
 
-    void addLines(std::vector<Line> lines);
-    void addPolygons(Shape* s);
-    void addClippingPolygon(Shape* s);
     void addHermiteCurve(std::vector<Point3D> points);
     void addBezierCurve(std::vector<Point3D> points);
-    void clipPolygons();
-    void clipLines();
     void addTrianglePoints(std::vector<float>& p, std::vector<float>& c);
+    void addBSplineCurve(std::vector<Point3D> points);
+    void addCurveLines(const std::vector<Point3D>& points);
 
 
 protected:
@@ -70,4 +66,7 @@ private:
     std::vector<float> colors;
     QQuaternion rotation;
     QVector3D rotationAxis;
+
+    GLenum str = GL_LINES;
+    int number = 2;
 };

@@ -66,11 +66,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>E:\Visualizer\ZBuffer;E:\Visualizer\HermiteCurve;E:\Visualizer\BezierCurve;E:\Visualizer\Algorithms;E:\Visualizer\Geometry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Visualizer\BSplineCurve;E:\Visualizer\Z_Buffer;E:\Visualizer\HermiteCurve;E:\Visualizer\BezierCurve;E:\Visualizer\Geometry;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>E:\Visualizer\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ZBuffer.lib;Geometry.lib;Algorithms.lib;BezierCurve.lib;HermiteCurve.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BSplineCurve.lib;ZBuffer.lib;Geometry.lib;BezierCurve.lib;HermiteCurve.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">

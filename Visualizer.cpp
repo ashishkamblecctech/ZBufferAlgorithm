@@ -2,24 +2,17 @@
 #include "Visualizer.h"
 #include "OpenGLWindow.h"
 #include "Geometry.h"
-#include "Reader.h"
-#include "Writer.h"
-#include "ZBuffer.h"
 
 Visualizer::Visualizer(QWindow* parent) : QMainWindow(nullptr)
 {
     setupUi();
     connect(mOpenGLWidget, SIGNAL(shapesUpdated()), mOpenGLWidget, SLOT(update()));
-    connect(mPushButton2, &QPushButton::clicked, this, &Visualizer::addPoints);
-    connect(mPushButton4, &QPushButton::clicked, this, &Visualizer::addRegion);
-    connect(mPushButton3, &QPushButton::clicked, this, &Visualizer::addPolygon);
-    connect(mPushButton5, &QPushButton::clicked, this, &Visualizer::addLine);
-    connect(mPushButton6, &QPushButton::clicked, this, &Visualizer::clipLine);
-    connect(mPushButton7, &QPushButton::clicked, this, &Visualizer::clipPolygon);
-    connect(mPushButton8, &QPushButton::clicked, this, &Visualizer::addBezier);
-    connect(mPushButton9, &QPushButton::clicked, this, &Visualizer::addHermite);
-    connect(mPushButton10, &QPushButton::clicked, this, &Visualizer::reader);
-    connect(mPushButton11, &QPushButton::clicked, this, &Visualizer::writer);
+    connect(mPushButton1, &QPushButton::clicked, this, &Visualizer::addPoints);
+    connect(mPushButton2, &QPushButton::clicked, this, &Visualizer::addBezier);
+    connect(mPushButton3, &QPushButton::clicked, this, &Visualizer::addHermite);
+    connect(mPushButton4, &QPushButton::clicked, this, &Visualizer::reader);
+    connect(mPushButton5, &QPushButton::clicked, this, &Visualizer::writer);
+    connect(mPushButton6, &QPushButton::clicked, this, &Visualizer::addBSpline);
 }
 
 Visualizer::~Visualizer()
@@ -47,36 +40,19 @@ void Visualizer::setupUi()
 
     mGridLayout->addWidget(mOpenGLWidget, 1, 0, 1, 1);
 
-    // Second, show mHorizontalLayout7
-    mHorizontalLayout7 = new QHBoxLayout();
-    mHorizontalLayout7->setSpacing(6);
-    mPushButton4 = new QPushButton("ADD Region", mGridLayoutWidget);
-
-    mHorizontalLayout7->addWidget(mPushButton4);
-
-    mPushButton3 = new QPushButton("ADD Polygon", mGridLayoutWidget);
-
-    mHorizontalLayout7->addWidget(mPushButton3);
-
-    mPushButton5 = new QPushButton("ADD Line", mGridLayoutWidget);
-
-    mHorizontalLayout7->addWidget(mPushButton5);
-    mGridLayout->addLayout(mHorizontalLayout7, 2, 0, 1, 1);
-
-
     // Third, show mHorizontalLayout10
-    mHorizontalLayout10 = new QHBoxLayout();
-    mHorizontalLayout10->setSpacing(6);
+    mHorizontalLayout5 = new QHBoxLayout();
+    mHorizontalLayout5->setSpacing(6);
 
     // Rest of your existing code for mHorizontalLayout10 continues here
 
-    mVerticalLayout5 = new QVBoxLayout();
-    mVerticalLayout5->setSpacing(6);
-    mHorizontalLayout5 = new QHBoxLayout();
-    mHorizontalLayout5->setSpacing(6);
-    QLabel* label_4 = new QLabel("Point3D Input ->", mGridLayoutWidget);
+    mVerticalLayout1 = new QVBoxLayout();
+    mVerticalLayout1->setSpacing(6);
+    mHorizontalLayout1 = new QHBoxLayout();
+    mHorizontalLayout1->setSpacing(6);
 
-    mHorizontalLayout5->addWidget(label_4);
+    QLabel* label_4 = new QLabel("Point3D Input ->", mGridLayoutWidget);
+    mHorizontalLayout1->addWidget(label_4);
 
     QLabel* label_7 = new QLabel("X", mGridLayoutWidget);
     QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
@@ -86,65 +62,82 @@ void Visualizer::setupUi()
     label_7->setSizePolicy(sizePolicy);
     label_7->setAlignment(Qt::AlignRight | Qt::AlignTrailing | Qt::AlignVCenter);
 
-    mHorizontalLayout5->addWidget(label_7);
+    mHorizontalLayout1->addWidget(label_7);
 
-    mDoubleSpinBox5 = new QDoubleSpinBox(mGridLayoutWidget);
-    mDoubleSpinBox5->setMinimum(-100.000000000000000);
-    mDoubleSpinBox5->setMaximum(100.000000000000000);
-    mHorizontalLayout5->addWidget(mDoubleSpinBox5);
+    mDoubleSpinBox1 = new QDoubleSpinBox(mGridLayoutWidget);
+    mDoubleSpinBox1->setMinimum(-100.000000000000000);
+    mDoubleSpinBox1->setMaximum(100.000000000000000);
+    mHorizontalLayout1->addWidget(mDoubleSpinBox1);
 
     QLabel* label_8 = new QLabel("Y", mGridLayoutWidget);
     sizePolicy.setHeightForWidth(label_8->sizePolicy().hasHeightForWidth());
     label_8->setSizePolicy(sizePolicy);
     label_8->setAlignment(Qt::AlignRight | Qt::AlignTrailing | Qt::AlignVCenter);
 
-    mHorizontalLayout5->addWidget(label_8);
+    mHorizontalLayout1->addWidget(label_8);
 
-    mDoubleSpinBox6 = new QDoubleSpinBox(mGridLayoutWidget);
-    mDoubleSpinBox6->setMinimum(-100.000000000000000);
-    mDoubleSpinBox6->setMaximum(100.000000000000000);
-    mHorizontalLayout5->addWidget(mDoubleSpinBox6);
+    mDoubleSpinBox2 = new QDoubleSpinBox(mGridLayoutWidget);
+    mDoubleSpinBox2->setMinimum(-100.000000000000000);
+    mDoubleSpinBox2->setMaximum(100.000000000000000);
+    mHorizontalLayout1->addWidget(mDoubleSpinBox2);
 
-    mPushButton2 = new QPushButton("ADD", mGridLayoutWidget);
+    mPushButton1 = new QPushButton("ADD", mGridLayoutWidget);
 
-    mHorizontalLayout5->addWidget(mPushButton2);
+    mHorizontalLayout1->addWidget(mPushButton1);
 
-    mVerticalLayout5->addLayout(mHorizontalLayout5);
+    mVerticalLayout1->addLayout(mHorizontalLayout1);
 
-    mListWidget3 = new QListWidget(mGridLayoutWidget);
+    mListWidget1 = new QListWidget(mGridLayoutWidget);
     QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Minimum);
     sizePolicy1.setHorizontalStretch(0);
     sizePolicy1.setVerticalStretch(0);
-    sizePolicy1.setHeightForWidth(mListWidget3->sizePolicy().hasHeightForWidth());
-    mListWidget3->setSizePolicy(sizePolicy1);
+    sizePolicy1.setHeightForWidth(mListWidget1->sizePolicy().hasHeightForWidth());
+    mListWidget1->setSizePolicy(sizePolicy1);
 
-    mVerticalLayout5->addWidget(mListWidget3);
+    mVerticalLayout1->addWidget(mListWidget1);
 
-    mHorizontalLayout10->addLayout(mVerticalLayout5);
+    mHorizontalLayout5->addLayout(mVerticalLayout1);
 
-    mGridLayout->addLayout(mHorizontalLayout10, 3, 0, 1, 1);
+    mGridLayout->addLayout(mHorizontalLayout5, 2, 0, 1, 1);
 
+    mTabWidget = new QTabWidget(mGridLayoutWidget);
+    mHorizontalLayout5->addLayout(mVerticalLayout1);
+    mGridLayout->addWidget(mTabWidget, 10, 0, 1, 1);
 
-    mHorizontalLayout8 = new QHBoxLayout();
-    mPushButton6 = new QPushButton("Clip Lines", mGridLayoutWidget);
-    mHorizontalLayout8->addWidget(mPushButton6);
-    mPushButton7 = new QPushButton("Clip Polygons", mGridLayoutWidget);
-    mHorizontalLayout8->addWidget(mPushButton7);
-    mGridLayout->addLayout(mHorizontalLayout8, 4, 0, 1, 1);
+    mTab1 = new QWidget();
+    mTabWidget->addTab(mTab1, "Bezier");
 
-    mHorizontalLayout9 = new QHBoxLayout();
-    mPushButton8 = new QPushButton("Bezier Curve", mGridLayoutWidget);
-    mHorizontalLayout9->addWidget(mPushButton8);
-    mPushButton9 = new QPushButton("Hermite Curve", mGridLayoutWidget);
-    mHorizontalLayout9->addWidget(mPushButton9);
-    mGridLayout->addLayout(mHorizontalLayout9, 5, 0, 1, 1);
+    mTab2 = new QWidget();
+    mTabWidget->addTab(mTab2, "Hermite");
 
-    mHorizontalLayout11 = new QHBoxLayout();
-    mPushButton10 = new QPushButton("Read STL File", mGridLayoutWidget);
-    mHorizontalLayout11->addWidget(mPushButton10);
-    mPushButton11 = new QPushButton("Show STL File", mGridLayoutWidget);
-    mHorizontalLayout11->addWidget(mPushButton11);
-    mGridLayout->addLayout(mHorizontalLayout11, 6, 0, 1, 1);
+    mTab3 = new QWidget();
+    mTabWidget->addTab(mTab3, "Z-Buffer");
+    
+    mTab4 = new QWidget();
+    mTabWidget->addTab(mTab4, "B-Spline");
+
+    mHorizontalLayout2 = new QHBoxLayout(mTab1);
+    mPushButton2 = new QPushButton("Bezier Curve", mGridLayoutWidget);
+    mHorizontalLayout2->addWidget(mPushButton2);
+    mGridLayout->addLayout(mHorizontalLayout2, 3, 0, 1, 1);
+
+    mHorizontalLayout3 = new QHBoxLayout(mTab2);
+    mPushButton3 = new QPushButton("Hermite Curve", mGridLayoutWidget);
+    //mPushButton3->setGeometry(QRect(0, 1, 1, 1));
+    mHorizontalLayout3->addWidget(mPushButton3);
+    mGridLayout->addLayout(mHorizontalLayout3, 4, 0, 1, 1);
+
+    mHorizontalLayout4 = new QHBoxLayout(mTab3);
+    mPushButton4 = new QPushButton("Read STL File", mGridLayoutWidget);
+    mHorizontalLayout4->addWidget(mPushButton4);
+    mPushButton5 = new QPushButton("Show STL File", mGridLayoutWidget);
+    mHorizontalLayout4->addWidget(mPushButton5);
+    mGridLayout->addLayout(mHorizontalLayout4, 5, 0, 1, 1);
+
+    mHorizontalLayout6 = new QHBoxLayout(mTab4);
+    mPushButton6 = new QPushButton("BSplineCurve Curve", mGridLayoutWidget);
+    mHorizontalLayout6->addWidget(mPushButton6);
+    mGridLayout->addLayout(mHorizontalLayout6, 6, 0, 1, 1);
 
     QLabel* label = new QLabel("Algorithms", mGridLayoutWidget);
     label->setAlignment(Qt::AlignLeading | Qt::AlignHCenter | Qt::AlignVCenter);
@@ -155,8 +148,8 @@ void Visualizer::setupUi()
 
 void Visualizer::addPoints()
 {
-    double xValue = mDoubleSpinBox5->value();
-    double yValue = mDoubleSpinBox6->value();
+    double xValue = mDoubleSpinBox1->value();
+    double yValue = mDoubleSpinBox2->value();
 
     // Create a string representation of the values
     QString itemText = QString("X: %1, Y: %2").arg(xValue).arg(yValue);
@@ -165,66 +158,7 @@ void Visualizer::addPoints()
 
     // Add the item to the QListWidget
     QListWidgetItem* newItem = new QListWidgetItem(itemText);
-    mListWidget3->addItem(newItem);
-}
-
-void Visualizer::addRegion()
-{
-    if (mPoints.size() < 3) {
-        // At least three points are needed to create a polygon
-        QMessageBox::warning(this, "Error", "At least three points are needed to create a Region.");
-        return;
-    }
-    Shape* s;
-    std::vector<Line> lines;
-    int size = mPoints.size();
-    for (int i = 0;i < size;i++) {
-        lines.push_back(Line(mPoints.at(i), mPoints.at((i + 1) % size)));
-    }
-    s = new Shape(lines);
-    mOpenGLWidget->addClippingPolygon(s);
-
-    mListWidget3->clear();
-    mPoints.clear();
-}
-void Visualizer::addLine()
-{
-    if (mPoints.size() < 2) {
-        // At least two points are needed to create a line
-        QMessageBox::warning(this, "Error", "At least two points are needed to create a line.");
-        return;
-    }
-
-    std::vector<Line> lines;
-    int size = mPoints.size();
-    for (int i = 0;i < size-1;i+=2) {
-        lines.push_back(Line(mPoints.at(i), mPoints.at(i+1)));
-    }
-    mOpenGLWidget->addLines(lines);
-
-    mListWidget3->clear();
-    mPoints.clear();
-}
-
-void Visualizer::addPolygon()
-{
-    if (mPoints.size() < 3) {
-        // At least three points are needed to create a polygon
-        QMessageBox::warning(this, "Error", "At least three points are needed to create a polygon.");
-        return;
-    }
-
-    std::vector<Line> lines;
-    int size = mPoints.size();
-    for (int i = 0; i < size; i++) {
-        lines.push_back(Line(mPoints.at(i), mPoints.at((i + 1) % size)));
-    }
-
-    Shape* polygon = new Shape(lines);
-    mOpenGLWidget->addPolygons(polygon);
-
-    mListWidget3->clear();
-    mPoints.clear();
+    mListWidget1->addItem(newItem);
 }
 
 void Visualizer::addHermite()
@@ -236,7 +170,7 @@ void Visualizer::addHermite()
     }
     mOpenGLWidget->addHermiteCurve(mPoints);
 
-    mListWidget3->clear();
+    mListWidget1->clear();
     mPoints.clear();
 }
 
@@ -249,26 +183,39 @@ void Visualizer::addBezier()
     }
     mOpenGLWidget->addBezierCurve(mPoints);
 
-    mListWidget3->clear();
+    mListWidget1->clear();
     mPoints.clear();
 }
 
-void Visualizer::clipPolygon()
-{
-    mOpenGLWidget->clipPolygons();
-}
-void Visualizer::clipLine()
-{
-    mOpenGLWidget->clipLines();
-}
-
 void Visualizer::reader() {
-    Reader reader;
+    Z_Buffer reader;
     reader.reader(triangles, myColorVector);
 }
 
 void Visualizer::writer() {
-    Writer writer;
+    Z_Buffer writer;
     writer.write(triangles, inputPoints);
     mOpenGLWidget->addTrianglePoints(inputPoints, myColorVector);
+}
+
+//void Visualizer::clearListAndPoints()
+//{
+//    // Clear the list and points
+//    mListWidget3->clear();
+//    mPoints.clear();
+//}
+
+void Visualizer::addBSpline()
+{
+    // Add a Bezier curve to the OpenGL window
+    if (mPoints.size() != 4) {
+        QMessageBox::warning(this, "Error", "Four points are needed to create a BSpline curve.");
+        return;
+    }
+
+    // Add Bezier curve to the OpenGL window
+    mOpenGLWidget->addBSplineCurve(mPoints);
+
+    // Clear the list and points
+    //clearListAndPoints();
 }

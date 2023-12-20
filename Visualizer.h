@@ -7,6 +7,7 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLWidget>
 #include "Triangle.h"
+#include "Z_Buffer.h"
 
 
 class OpenGLWindow;
@@ -18,50 +19,55 @@ class Visualizer : public QMainWindow, protected QOpenGLFunctions
 public:
     Visualizer(QWindow* parent = nullptr);
     ~Visualizer();
+    void reader();
+    void writer();
 
 private:
     void setupUi();
+    void clearListAndPoints();
+
 private slots:
     void addPoints();
-    void addRegion();
-    void addLine();
     void addHermite();
     void addBezier();
-    void addPolygon();
-    void clipPolygon();
-    void clipLine();
-    void reader();
-    void writer();
+    void addBSpline();
 
 private:
     QWidget* mCentralWidget;
     QWidget* mGridLayoutWidget;
     QGridLayout* mGridLayout;
-    QHBoxLayout* mHorizontalLayout7;
-    QHBoxLayout* mHorizontalLayout8;
-    QHBoxLayout* mHorizontalLayout9;
-    QHBoxLayout* mHorizontalLayout11;
-    QPushButton* mPushButton4;
+
+    QHBoxLayout* mHorizontalLayout1;
+    QHBoxLayout* mHorizontalLayout2;
+    QHBoxLayout* mHorizontalLayout3;
+    QHBoxLayout* mHorizontalLayout4;
+    QHBoxLayout* mHorizontalLayout5;
+    QHBoxLayout* mHorizontalLayout6;
+
+    QPushButton* mPushButton1;
+    QPushButton* mPushButton2;
     QPushButton* mPushButton3;
+    QPushButton* mPushButton4;
     QPushButton* mPushButton5;
     QPushButton* mPushButton6;
-    QPushButton* mPushButton7;
-    QPushButton* mPushButton8;
-    QPushButton* mPushButton9;
-    QPushButton* mPushButton10;
-    QPushButton* mPushButton11;
-    QHBoxLayout* mHorizontalLayout10;
-    QVBoxLayout* mVerticalLayout3;
-    QVBoxLayout* mVerticalLayout5;
-    QHBoxLayout* mHorizontalLayout5;
-    QDoubleSpinBox* mDoubleSpinBox5;
-    QDoubleSpinBox* mDoubleSpinBox6;
-    QPushButton* mPushButton2;
-    QListWidget* mListWidget3;
+
+    
+    QVBoxLayout* mVerticalLayout1;
+    
+    QDoubleSpinBox* mDoubleSpinBox1;
+    QDoubleSpinBox* mDoubleSpinBox2;
+    
+    QListWidget* mListWidget1;
     OpenGLWindow* mOpenGLWidget;
+    QTabWidget* mTabWidget;
+    QListWidget* mListWidget3;
+
+    QWidget* mTab1;
+    QWidget* mTab2;
+    QWidget* mTab3;
+    QWidget* mTab4;
 
     std::vector<Point3D> mPoints;
-
     std::vector <Triangle> triangles;
     std::vector <float> myColorVector;
     std::vector <float> inputPoints;
