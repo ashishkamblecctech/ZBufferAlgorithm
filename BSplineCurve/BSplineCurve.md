@@ -36,3 +36,6 @@ std::vector<Point3D> curvePoints = bSplineCurve.evaluate(controlPoints, numSampl
 ```
 
 ![B-Spline](https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/edb330e6-371c-444f-b485-8b8e421ff97f)
+
+
+https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/f2bbcd82-06a6-4c1b-b7ac-3bf7dffdf73a
