@@ -35,3 +35,4 @@ float numSamples = 100.0f;
 std::vector<Point3D> curvePoints = bSplineCurve.evaluate(controlPoints, numSamples);
 ```
 
+![B-Spline](https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/edb330e6-371c-444f-b485-8b8e421ff97f)
