@@ -28,6 +28,9 @@ Point3D BezierCurve::evaluateBezier(double t);
 #include "BezierCurve.h"
 ```
 
+
+
+
 ### Example usage of BezierCurve class
 ```
 std::vector<Point3D> controlPoints = { /* initialize control points here */ };
@@ -37,3 +40,4 @@ std::vector<Point3D> curvePoints = bezierCurve.calculateBezier();
 ![BezierCurve](https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/31ae4131-d650-49c6-b089-c1646ce29682)
 
 
+https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/7e7b872f-769a-45e5-8a11-967868fd6631
