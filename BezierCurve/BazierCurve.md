@@ -40,7 +40,10 @@ std::vector<Point3D> curvePoints = bezierCurve.calculateBezier();
 ![BezierCurve](https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/31ae4131-d650-49c6-b089-c1646ce29682)
 
 
-https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/62b92fb2-2ddd-4576-9ecb-30dee25706e9
+
+
+https://github.com/ashishkamblecctech/ZBufferAlgorithm/assets/149309502/07a9c7d3-f955-4e0c-b7e6-63dc92c5d4b7
+
 
 
 
