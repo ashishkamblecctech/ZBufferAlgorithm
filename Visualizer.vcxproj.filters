@@ -54,5 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cubeModel.stl" />
+    <None Include="fragmentShader.glsl" />
+    <None Include="vertexShader.glsl" />
   </ItemGroup>
 </Project>

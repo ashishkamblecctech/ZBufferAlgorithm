@@ -18,16 +18,25 @@ class OpenGLWindow :public QOpenGLWidget, protected QOpenGLFunctions
 signals:
     void shapesUpdated();
 
+public slots:
+    
+
 public:
     OpenGLWindow(const QColor& (background), QWidget* parent);
     ~OpenGLWindow();
+    void mouseMoveEvent(QMouseEvent* event);
 
     void addHermiteCurve(std::vector<Point3D> points);
     void addBezierCurve(std::vector<Point3D> points);
     void addTrianglePoints(std::vector<float>& p, std::vector<float>& c);
-    void addBSplineCurve(std::vector<Point3D> points);
+    void addBSplineCurve(std::vector<Point3D>& points);
     void addCurveLines(const std::vector<Point3D>& points);
-
+    QString readShader(QString filepath);
+    void shaderWatcher();
+    void addPoints();
+    void toggleMirrorEffect_X();
+    void toggleMirrorEffect_Y();
+    void colorChanger();
 
 protected:
     void paintGL() override;
@@ -69,4 +78,20 @@ private:
 
     GLenum str = GL_LINES;
     int number = 2;
+
+    QQuaternion rotationAngle;
+    QPoint lastPos;
+
+    QFileSystemWatcher* mVertexShaderWatcher;
+    QFileSystemWatcher* mFragmentShaderWatcher;
+    QFileSystemWatcher* mShaderWatcher;
+
+    QOpenGLBuffer mColorVbo;
+    QElapsedTimer mTimer;
+    GLfloat r=1, g=1, b=1;
+    
+
+    bool mirrorEnabled_X;
+    bool mirrorEnabled_Y;
+    int num;
 };

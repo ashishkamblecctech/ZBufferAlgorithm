@@ -1,10 +1,8 @@
 // Z_Buffer.cpp : Defines the exported functions for the DLL.
-//
 
 #include "pch.h"
 #include "framework.h"
 #include "Z_Buffer.h"
-#include "Reader.h"
 #include "Point3D.h"
 #include "Triangle.h"
 #include "Triangulation.h"
@@ -12,16 +10,6 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
-
-
-//// This is an example of an exported variable
-//ZBUFFER_API int nZBuffer=0;
-//
-//// This is an example of an exported function.
-//ZBUFFER_API int fnZBuffer(void)
-//{
-//    return 0;
-//}
 
 // This is the constructor of a class that has been exported.
 Z_Buffer::Z_Buffer()
@@ -32,8 +20,6 @@ Z_Buffer::Z_Buffer()
 Z_Buffer::~Z_Buffer()
 {
 }
-
-
 
 void Z_Buffer::reader(std::vector <Triangle>& triangles, std::vector <float>& myColorVector) {
 
@@ -72,9 +58,7 @@ void Z_Buffer::reader(std::vector <Triangle>& triangles, std::vector <float>& my
 
             Triangle triangle(point1, point2, point3);
             triangles.push_back(triangle);
-            /*myPointVector.push_back(x);
-            myPointVector.push_back(y);
-            myPointVector.push_back(z);*/
+
             count++;
 
             if (count == 1) {

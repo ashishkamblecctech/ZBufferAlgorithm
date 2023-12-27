@@ -24,18 +24,22 @@ public:
 
 private:
     void setupUi();
-    void clearListAndPoints();
 
 private slots:
     void addPoints();
     void addHermite();
     void addBezier();
     void addBSpline();
+    void mirror_X();
+    void mirror_Y();
+    void colorChange();
 
 private:
     QWidget* mCentralWidget;
     QWidget* mGridLayoutWidget;
     QGridLayout* mGridLayout;
+
+    OpenGLWindow* mRenderer;
 
     QHBoxLayout* mHorizontalLayout1;
     QHBoxLayout* mHorizontalLayout2;
@@ -43,6 +47,8 @@ private:
     QHBoxLayout* mHorizontalLayout4;
     QHBoxLayout* mHorizontalLayout5;
     QHBoxLayout* mHorizontalLayout6;
+    QHBoxLayout* mHorizontalLayout7;
+    QHBoxLayout* mHorizontalLayout8;
 
     QPushButton* mPushButton1;
     QPushButton* mPushButton2;
@@ -50,6 +56,9 @@ private:
     QPushButton* mPushButton4;
     QPushButton* mPushButton5;
     QPushButton* mPushButton6;
+    QPushButton* mPushButton7;
+    QPushButton* mPushButton8;
+    QPushButton* mPushButton9;
 
     
     QVBoxLayout* mVerticalLayout1;
@@ -66,6 +75,8 @@ private:
     QWidget* mTab2;
     QWidget* mTab3;
     QWidget* mTab4;
+    QWidget* mTab5;
+    QWidget* mTab6;
 
     std::vector<Point3D> mPoints;
     std::vector <Triangle> triangles;

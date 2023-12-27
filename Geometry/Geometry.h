@@ -1,4 +1,5 @@
 #include "pch.h"
+#pragma once
 
 // This class is exported from the dll
 class GEOMETRY_API Geometry {

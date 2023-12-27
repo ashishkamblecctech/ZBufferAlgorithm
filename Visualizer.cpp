@@ -13,6 +13,9 @@ Visualizer::Visualizer(QWindow* parent) : QMainWindow(nullptr)
     connect(mPushButton4, &QPushButton::clicked, this, &Visualizer::reader);
     connect(mPushButton5, &QPushButton::clicked, this, &Visualizer::writer);
     connect(mPushButton6, &QPushButton::clicked, this, &Visualizer::addBSpline);
+    connect(mPushButton7, &QPushButton::clicked, this, &Visualizer::mirror_X);
+    connect(mPushButton8, &QPushButton::clicked, this, &Visualizer::mirror_Y);
+    connect(mPushButton9, &QPushButton::clicked, this, &Visualizer::colorChange);
 }
 
 Visualizer::~Visualizer()
@@ -40,7 +43,7 @@ void Visualizer::setupUi()
 
     mGridLayout->addWidget(mOpenGLWidget, 1, 0, 1, 1);
 
-    // Third, show mHorizontalLayout10
+    // Third, show mHorizontalLayout5
     mHorizontalLayout5 = new QHBoxLayout();
     mHorizontalLayout5->setSpacing(6);
 
@@ -116,6 +119,12 @@ void Visualizer::setupUi()
     mTab4 = new QWidget();
     mTabWidget->addTab(mTab4, "B-Spline");
 
+    mTab5 = new QWidget();
+    mTabWidget->addTab(mTab5, "Mirror");
+
+    mTab6 = new QWidget();
+    mTabWidget->addTab(mTab6, "Color");
+
     mHorizontalLayout2 = new QHBoxLayout(mTab1);
     mPushButton2 = new QPushButton("Bezier Curve", mGridLayoutWidget);
     mHorizontalLayout2->addWidget(mPushButton2);
@@ -123,7 +132,6 @@ void Visualizer::setupUi()
 
     mHorizontalLayout3 = new QHBoxLayout(mTab2);
     mPushButton3 = new QPushButton("Hermite Curve", mGridLayoutWidget);
-    //mPushButton3->setGeometry(QRect(0, 1, 1, 1));
     mHorizontalLayout3->addWidget(mPushButton3);
     mGridLayout->addLayout(mHorizontalLayout3, 4, 0, 1, 1);
 
@@ -139,11 +147,34 @@ void Visualizer::setupUi()
     mHorizontalLayout6->addWidget(mPushButton6);
     mGridLayout->addLayout(mHorizontalLayout6, 6, 0, 1, 1);
 
+    mHorizontalLayout7 = new QHBoxLayout(mTab5);
+    mPushButton8 = new QPushButton("Mirror about X-axis", mGridLayoutWidget);
+    mHorizontalLayout7->addWidget(mPushButton8);
+    mPushButton7 = new QPushButton("Mirror about Y-axis", mGridLayoutWidget);
+    mHorizontalLayout7->addWidget(mPushButton7);
+    mGridLayout->addLayout(mHorizontalLayout7, 7, 0, 1, 1);
+
+    mHorizontalLayout8 = new QHBoxLayout(mTab6);
+    mPushButton9 = new QPushButton("Color", mGridLayoutWidget);
+    mHorizontalLayout8->addWidget(mPushButton9);
+    mGridLayout->addLayout(mHorizontalLayout8, 8, 0, 1, 1);
+
     QLabel* label = new QLabel("Algorithms", mGridLayoutWidget);
     label->setAlignment(Qt::AlignLeading | Qt::AlignHCenter | Qt::AlignVCenter);
     mGridLayout->addWidget(label, 0, 0, 1, 1);
 
     setCentralWidget(mCentralWidget);
+}
+
+void Visualizer::mirror_X() {
+    mOpenGLWidget->toggleMirrorEffect_X();
+}
+void Visualizer::mirror_Y() {
+    mOpenGLWidget->toggleMirrorEffect_Y();
+}
+
+void Visualizer::colorChange() {
+    mOpenGLWidget->colorChanger();
 }
 
 void Visualizer::addPoints()
@@ -198,12 +229,6 @@ void Visualizer::writer() {
     mOpenGLWidget->addTrianglePoints(inputPoints, myColorVector);
 }
 
-//void Visualizer::clearListAndPoints()
-//{
-//    // Clear the list and points
-//    mListWidget3->clear();
-//    mPoints.clear();
-//}
 
 void Visualizer::addBSpline()
 {
@@ -215,7 +240,4 @@ void Visualizer::addBSpline()
 
     // Add Bezier curve to the OpenGL window
     mOpenGLWidget->addBSplineCurve(mPoints);
-
-    // Clear the list and points
-    //clearListAndPoints();
 }
